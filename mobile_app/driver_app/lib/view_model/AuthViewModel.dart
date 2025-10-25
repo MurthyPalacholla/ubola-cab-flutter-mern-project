@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
-import 'package:simnumber/sim_number.dart';
-import 'package:simnumber/siminfo.dart';
+import 'package:sim_card_code/sim_card_code.dart';
 
 class AuthViewModel extends GetxController{
 
@@ -18,12 +17,9 @@ class AuthViewModel extends GetxController{
     dummyList.clear();
     originalList.clear();
     try {
-      SimInfo simInfo = await SimNumber.getSimData();
-      var phoneNumber;
-      for (var s in simInfo.cards) {
-        phoneNumber = s.phoneNumber!;
+      var phoneNumber = await SimCardManager.phoneNumber;
+      if (phoneNumber != null) {
         phoneNumber = phoneNumber.replaceFirst(RegExp(r'^\+?91'), '');
-        print('Serial number: ${s.slotIndex} ${s.phoneNumber}');
         dummyList.add(phoneNumber);
       }
       if(dummyList.isNotEmpty){
